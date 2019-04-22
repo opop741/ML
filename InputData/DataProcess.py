@@ -8,11 +8,11 @@ import numpy as np
 # pd_data = pd.read_excel(r"D:\py_projects\ML\data\test.xlsx",header=None,index_col=0)
 def dummy_variable(pd_data=None,process_columns=None,dummy_variable_dict={}):
     if pd_data is None or not isinstance(pd_data,pd.DataFrame):
-        raise ("传入数据必须是pandas的DataFrame！", ValueError)
+        raise ValueError("传入数据必须是pandas的DataFrame！")
     if process_columns is None or not isinstance(process_columns,(str,int)):
-        raise("必须指定哑变量列名，且只能是str或int数据类型！",ValueError)
-    if pd_data[process_columns].isna().any():
-        raise ("指定的列不可有缺失值！", ValueError)
+        raise ValueError("必须指定哑变量列名，且只能是str或int数据类型！")
+    if pd_data[process_columns].isnull().any():
+        raise ValueError("指定的列不可有缺失值！")
 
     # 先将值去重
     values_set = set(pd_data[process_columns])

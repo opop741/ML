@@ -5,7 +5,7 @@ import os
 import chardet
 
 class InputText:
-    def __init__(self,path,free_memory_of_GB=2,lines_n=5):
+    def __init__(self,path,free_memory_of_GB=2,lines_n=5,new_line=None):
         # 设置文件路径
         self.path = path
 
@@ -15,8 +15,11 @@ class InputText:
         # 每次读取的行数
         self.lines_n = lines_n
 
+        # 换行符
+        self.new_line = new_line
+
         # 检查可用内存量
-        self.txt_size = os.path.getsize(r"Y:/python_project/ML/InputData/test.txt") # 读取文件大小，单位Bytes/比特/字节，比位大比KB小
+        self.txt_size = os.path.getsize(self.path) # 读取文件大小，单位Bytes/比特/字节，比位大比KB小
         self.file_size_of_GB = self.txt_size / 1024 / 1024 / 1024
 
         # 检查编码，取1MB的文本内容来检查编码，不足1MB就全部检查
@@ -60,7 +63,10 @@ class InputText:
         cache_list = []
         try:
             for i in range(self.lines_n):
-                cache_list.append(next(self.file_temp).decode(self.chart))
+                cache = next(self.file_temp).decode(self.chart)
+                if self.new_line:
+                    cache = cache[:len(cache) - len(self.new_line)]
+                cache_list.append(cache)
             return cache_list
         except Exception as e:
             if cache_list != []:
