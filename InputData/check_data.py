@@ -12,7 +12,7 @@ def check_NaN(pd_data):
     data_info = pd.DataFrame(columns_info_list,columns=('columns','dtype','NaN_column'))
 
     # 空行
-    NaN_row_list = pd_data.index[pd_data.isna().any(1) == True].tolist()
+    NaN_row_list = pd_data.index[pd_data.isnull().any(1) == True].tolist()
 
     # 空列
     NaN_column_list = data_info['columns'][data_info['NaN_column']].tolist()
