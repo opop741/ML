@@ -3,7 +3,7 @@ __author__ = 'Jazz_Qi'
 
 import pandas as pd
 
-# 传入的参数pd_data必须是pandas的DataFrame
+# 传入的参数pd_data必须是pandas的DataFrame，返回的数据是dict。
 def check_NaN(pd_data):
     columns_info_list = []
     isNaN_columns_dict = dict(pd_data.isna().any(0)) # isnull与isna是一样的，前者都用后者
