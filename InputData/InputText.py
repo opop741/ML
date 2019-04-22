@@ -5,7 +5,7 @@ import os
 import chardet
 
 class InputText:
-    def __init__(self,path,free_memory_of_GB=2,lines_n=5,newline_str=None):
+    def __init__(self,path,free_memory_of_GB=2,lines_n=5):
         # 设置文件路径
         self.path = path
 
@@ -15,11 +15,8 @@ class InputText:
         # 每次读取的行数
         self.lines_n = lines_n
 
-        # 分割符
-        self.newline_str = newline_str
-
         # 检查可用内存量
-        self.txt_size = os.path.getsize(self.path) # 读取文件大小，单位Bytes/比特/字节，比位大比KB小
+        self.txt_size = os.path.getsize(r"Y:/python_project/ML/InputData/test.txt") # 读取文件大小，单位Bytes/比特/字节，比位大比KB小
         self.file_size_of_GB = self.txt_size / 1024 / 1024 / 1024
 
         # 检查编码，取1MB的文本内容来检查编码，不足1MB就全部检查
@@ -31,11 +28,7 @@ class InputText:
             if chardet.detect(sample)['confidence'] > 0.9:
                 self.chart = chardet.detect(sample)['encoding']
 
-        # 临时属性用于存放读取文件流
         self.file_temp = 0
-
-        # 停止读取属性
-        self.stop = 'sStToOpP12343 2s4d3 aa352f1vb-_s315w.2g343bwgw98587^%^*&*^&(*(*^*jljv hisgsg12g1789456f6m65ffn5fn284n68f4f5t.././.,[];\'234)^%^&%2'
 
     #一次读取所有数据并返回
     def return_all_dall(self):
@@ -53,34 +46,28 @@ class InputText:
     def return_next_N_line(self,lines_n=None):
         #第一次调用时候初始化数据生成器
         if not self.file_temp:
-            print("开始读取！")
+            print("*****************************")
             self.file_temp = open(self.path, 'rb')
 
         #实例化时候有一个行数设定，每次调用都可以更改输出行数
         if lines_n:
             self.lines_n = lines_n 
 
-        #返回结果列表
+        # #返回结果列表
+        # content = [next(self.file_temp).decode(self.chart) for i in range(lines_n)]
+        # return content
+
         cache_list = []
         try:
             for i in range(self.lines_n):
-                # 读取下一行文本
-                cache = next(self.file_temp).decode(self.chart)
-
-                # 去除换行符
-                if self.newline_str:
-                    str_len = len(cache) - len(self.newline_str)
-                    cache = cache[:str_len]
-                # 将本行添加都本次返回的list中
-                cache_list.append(cache)
+                cache_list.append(next(self.file_temp).decode(self.chart))
             return cache_list
         except Exception as e:
-            self.file_temp.close()
             if cache_list != []:
-                print('已读取至结尾！')
+                self.file_temp.close()
                 return cache_list
             else:
-                return
+                return           
 
     #分开读取数据，每次返回1条数据
     def return_next_1_line(self):
