@@ -4,7 +4,7 @@ __author__ = 'Jazz_Qi'
 import pandas as pd
 
 # 传入的参数pd_data必须是pandas的DataFrame，返回的数据是dict。
-def check_NaN(pd_data):
+def check_null(pd_data):
     columns_info_list = []
     isnull_columns_dict = dict(pd_data.isnull().any(0)) # 有些版本isnull调用isna，有些版本没有isna，所以用isnull
     for i in pd_data.columns:
