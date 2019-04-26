@@ -6,15 +6,16 @@ import pandas
 
 class test:
     def io_add(func):
-        def inner_function(*param,**params):
+        def inner_function(self,*param,**params):
             # import pandas
+            print(self,param,params)
             _get_data_method = {"read_csv": pandas.read_csv,
                                 "read_excel": pandas.read_excel,
                                 "read_json": pandas.read_json,
                                 "read_pickle": pandas.read_pickle,
                                 "read_html": pandas.read_html,
                                 "read_sql": pandas.read_sql}
-            if isinstance(param,tuple):
+            if isinstance(param,tuple) and param != ():
                 if isinstance(param[0],str):
                     file_path = param[0]
             elif isinstance(params,dict):
@@ -50,5 +51,5 @@ class test:
         pass
 
 test1 = test()
-test.read_excel(r"D:\py_projects\ML\data\test.xlsx",header=0,index_col=0)
-test1.read_excel(r"D:\py_projects\ML\data\test.xlsx",header=0,index_col=0)
+# test.read_excel(r".\data\test.xlsx",header=0,index_col=0) #加了self就变成实例的方法，所以用类.实例方法时不会传入self，所以与装饰器不匹配，会报错
+test1.read_excel(r".\data\test.xlsx",header=0,index_col=0) #self加了
