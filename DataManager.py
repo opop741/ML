@@ -7,16 +7,64 @@ from inspect import isfunction
 
 class DataProcedure():
     data_file_path = ""
+
+    # 检查数据哪些字段有缺失值
     check_null = check_null
+
+    # 利用属性来返回读取DataFrame方法
     _get_data_method = {"read_csv":pandas.read_csv,
                        "read_excel":pandas.read_excel,
                        "read_json":pandas.read_json,
                        "read_pickle":pandas.read_pickle,
                        "read_html":pandas.read_html,
                        "read_sql":pandas.read_sql}
-    all_procedure = []
     def __getattr__(self, item):
         return self._get_data_method[item]
+
+    # # 读取DataFrame方法的装饰器
+    # def io_add(func):
+    #     def inner_function(*param, **params):
+    #         # import pandas
+    #         _get_data_method = {"read_csv": pandas.read_csv,
+    #                             "read_excel": pandas.read_excel,
+    #                             "read_json": pandas.read_json,
+    #                             "read_pickle": pandas.read_pickle,
+    #                             "read_html": pandas.read_html,
+    #                             "read_sql": pandas.read_sql}
+    #         if isinstance(param, tuple):
+    #             if isinstance(param[0], str):
+    #                 file_path = param[0]
+    #         elif isinstance(params, dict):
+    #             file_path = params['io']
+    #         pd_data = _get_data_method[func.__name__](*param, **params)
+    #     return inner_function
+    #
+    # @io_add
+    # def read_csv():
+    #     pass
+    #
+    # @io_add
+    # def read_excel():
+    #     pass
+    #
+    # @io_add
+    # def read_json():
+    #     pass
+    #
+    # @io_add
+    # def read_pickle():
+    #     pass
+    #
+    # @io_add
+    # def read_html():
+    #     pass
+    #
+    # @io_add
+    # def read_sql():
+    #     pass
+
+    # 数据处理流程list
+    all_procedure = []
 
     # 将前一步骤的dataframe和处理函数传入，处理函数将对dataframe处理得到新的数据集合
     def register(self,function,parameter,function_info=None):
@@ -63,3 +111,4 @@ class DataProcedure():
     # 运行所有处理步骤
     def execute_procedure_all(self,input_dataframe):
         execute_procedure(self,input_dataframe,0,len(self.all_procedure))
+
